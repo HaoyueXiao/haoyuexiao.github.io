@@ -3641,38 +3641,34 @@ input, select, textarea {
 
 /* The Modal (background) */
 .modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Fixed position to cover the entire viewport */
-	z-index: 1000; /* On top */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	background-color: rgba(0, 0, 0, 0.9); /* Black background with opacity */
-	display: flex; /* Flexbox layout */
-	justify-content: center; /* Center horizontally */
-	align-items: center; /* Center vertically */
-	overflow: hidden; /* Hide scrollbars */
-}
+        display: none;  /* Hidden by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9); /* Black background with opacity */
+        justify-content: center;
+        align-items: center;
+    }
 
-/* Modal Content (the image) */
-.modal-content {
-	max-width: 90%; /* Limit width to 90% of the screen */
-	max-height: 90%; /* Limit height to 90% of the screen */
-	object-fit: contain; /* Maintain aspect ratio while fitting the container */
-}
+    /* Modal content styling */
+    .modal-content {
+        max-width: 90%;
+        max-height: 90%;
+        object-fit: contain;
+    }
 
-/* Close button */
-.close {
-	position: absolute;
-	top: 20px;
-	right: 35px;
-	color: white;
-	font-size: 40px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
+    .close {
+        position: absolute;
+        top: 20px;
+        right: 35px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 .close:hover, .close:focus {
 	color: #bbb;
 	text-decoration: none;
