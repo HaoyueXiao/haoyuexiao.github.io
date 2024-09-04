@@ -3695,5 +3695,41 @@ input, select, textarea {
 	padding: 10px;
 }
 
+@font-face {
+    font-family: 'CustomCalligraphy';  /* Define the font-family name */
+    src: url('../webfonts/Hanyi Senty Floral Calligraphy Regular.ttf') format('truetype'); /* Fallback for older browsers */
+    font-weight: normal;
+    font-style: normal;
+}
+
+.calligraphy {
+    font-family: 'CustomCalligraphy', sans-serif;  /* Apply the custom font */
+    font-size: 36px;  /* Adjust font size */
+    line-height: 1.5;  /* Adjust line height */
+    color: #333;  /* Optional: Adjust color */
+}
+
+.icons_large {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* Display the icons horizontally */
+.icons_large li {
+	display: inline-block;  /* Makes the list items inline */
+	margin: 0 10px;  /* Adds spacing between icons */
+}
+
+/* Style the links (optional, depending on your current styles) */
+.icons_large a {
+	font-size: 24px;  /* Adjust icon size */
+	color: #333;  /* Change color if needed */
+	text-decoration: none;
+}
+
+.icons_large a:hover {
+	color: #0073e6;  /* Change color on hover */
+}
 		
 
