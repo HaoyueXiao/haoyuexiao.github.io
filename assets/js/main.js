@@ -93,3 +93,20 @@
 			});
 
 })(jQuery);
+
+// Function to open the modal and show the full resolution image
+function openModal(src) {
+	var modal = document.getElementById("imageModal");
+	var modalImg = document.getElementById("fullImage");
+	modal.style.display = "flex";  // Flex layout for centering content
+	modalImg.src = src;
+}
+
+// Function to close the modal
+function closeModal() {
+	var modal = document.getElementById("imageModal");
+	modal.style.display = "none";  // Hide the modal
+}
+
+
+

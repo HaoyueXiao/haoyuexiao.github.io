@@ -3609,3 +3609,95 @@ input, select, textarea {
 			}
 
 		}
+		
+		
+/* Gallery layout */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+/* Thumbnail styling */
+.gallery .image {
+    width: 100%;
+    overflow: hidden; /* This prevents the image from overflowing when scaled */
+}
+
+.gallery img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    cursor: pointer;
+}
+
+.gallery img:hover {
+    transform: scale(1.05); /* Slight zoom-in effect on hover */
+}
+
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Fixed position to cover the entire viewport */
+	z-index: 1000; /* On top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	background-color: rgba(0, 0, 0, 0.9); /* Black background with opacity */
+	display: flex; /* Flexbox layout */
+	justify-content: center; /* Center horizontally */
+	align-items: center; /* Center vertically */
+	overflow: hidden; /* Hide scrollbars */
+}
+
+/* Modal Content (the image) */
+.modal-content {
+	max-width: 90%; /* Limit width to 90% of the screen */
+	max-height: 90%; /* Limit height to 90% of the screen */
+	object-fit: contain; /* Maintain aspect ratio while fitting the container */
+}
+
+/* Close button */
+.close {
+	position: absolute;
+	top: 20px;
+	right: 35px;
+	color: white;
+	font-size: 40px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.close:hover, .close:focus {
+	color: #bbb;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* Gallery images (thumbnail view) */
+.gallery .image img {
+	width: 100%; /* Ensure it takes the full width of the container */
+	height: 150px; /* Set a fixed height for all thumbnails */
+	object-fit: cover; /* This will crop the image while keeping the aspect ratio */
+	border-radius: 5px; /* Optional: Slight rounding of corners */
+}
+
+/* Add padding and a bottom border for each gallery block */
+.gallery-block {
+	padding: 20px 0; /* Adds padding at the top and bottom */
+	border-bottom: 2px solid #ccc; /* Adds a bottom line */
+	margin-bottom: 20px; /* Adds space between gallery blocks */
+}
+
+/* Optional: You can add padding inside the gallery */
+.gallery {
+	padding: 10px;
+}
+
+		
+
