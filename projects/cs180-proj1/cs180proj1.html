@@ -10,6 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 	</head>
 	<body class="single is-preload">
 
@@ -94,8 +95,8 @@
 								<div style="display: flex; align-items: center; justify-content: center;">
 									<span class="image featured"><img src="./images/emir_fft.jpg" alt="" /></span>
 								</div>
-								<div markdown="1">
-								    <p>This **works** like a block but is technically an inline element!</p>
+								<div id="markdown-content">
+									<!-- Markdown content will be loaded here -->
 								</div>
 								
 								<footer>
@@ -129,6 +130,22 @@
 			<script src="../../assets/js/breakpoints.min.js"></script>
 			<script src="../../assets/js/util.js"></script>
 			<script src="../../assets/js/main.js"></script>
+
+			<script>
+				// Fetch the Markdown file
+				fetch('./content.md')  // Replace with the path to your markdown file
+					.then(response => response.text())  // Convert the response to text
+					.then(markdown => {
+						// Convert the markdown content to HTML using Marked.js
+						const htmlContent = marked(markdown);
+						
+						// Insert the HTML content into the div
+						document.getElementById('markdown-content').innerHTML = htmlContent;
+					})
+					.catch(error => {
+						console.error('Error loading markdown file:', error);
+					});
+			</script>
 
 	</body>
 </html>
