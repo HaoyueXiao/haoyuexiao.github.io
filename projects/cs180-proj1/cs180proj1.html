@@ -102,8 +102,9 @@
 								<div style="display: flex; align-items: center; justify-content: center;">
 									<span class="image featured"><img src="./images/emir_fft.jpg" alt="" /></span>
 								</div>
-								<hr>
+								
 								<!-- <div class="toccontent" align=""left">
+									<hr>
 									<h2>Table of Contents</h2>
 									<ul>
 										<li><a href="#introduction">Introduction</a></li>
@@ -235,7 +236,7 @@
 										<li><p>For layers larger than 1, we only search within the range \([-1, 1]\) around the starting point. If the best displacement from the start point is <code>(a,b)</code>, then pass the location <code>(2x + a, 2y + b)</code> to the next layer.</p>
 										</li>
 										</ol>
-										<p>This pyramid approach is much faster than the naive search even for low resolution images. Here are some aligned example photos using this approach.</p>
+										<p>This pyramid approach is much faster than the naive search even for low resolution images. Here are some aligned example photos using this approach(both with and without edge detection).</p>
 
 										<hr>
 										<p style="font-size: 24px; text-align: center; font-weight: bold;">With NCC Only (Not Perfectly Aligned)</p>
@@ -429,7 +430,7 @@
 											<div class="flex-container">
 												<div class="math-block">
 											$$
-										\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N) \overline{\mathcal{F}(B_N)} \implies E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \overline{\mathcal{F}(B_N)}\right|) \quad A_N = \frac{A - \overline{A}}{\|A - \overline{A}\|_F}
+										\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N) \implies E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \bar{*}\mathcal{F}(B_N)\right|) \quad A_N = \frac{A - \overline{A}}{\|A - \overline{A}\|_F}
 										$$
 												</div>
 											</div>
