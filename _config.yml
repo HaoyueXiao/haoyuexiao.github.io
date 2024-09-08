@@ -1,0 +1,13 @@
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Markdown settings
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+  math_engine: mathjax   # Add this line to enable MathJax for math equations
+

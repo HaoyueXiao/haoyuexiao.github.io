@@ -1,0 +1,579 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Colorizing the Prokudin-Gorskii Photo Collection</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+		<!-- Lightweight client-side loader that feature-detects and load polyfills only when necessary -->
+		<script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2/webcomponents-loader.min.js"></script>
+		<script type="module" src="https://cdn.jsdelivr.net/npm/zero-md@3?register"></script>
+		<script type="text/javascript" async
+			src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js">
+		</script>
+	</head>
+	<body class="single is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<h1><a href="../../index.html">Haoyue Xiao</a></h1>
+					<nav class="links">
+						<ul>
+							<li><a href="../../education/education.html">Education</a></li>
+							<li><a href="../projects.html">Projects</a></li>
+							<li><a href="../../cv/CV.html">CV</a></li>
+							<li><a href="../../personal/personal.html">Personal</a></li>
+						</ul>
+					</nav>
+					<nav class="main">
+						<ul>
+			
+							<li class="menu">
+								<a class="fa-bars" href="#menu">Menu</a>
+							</li>
+						</ul>
+					</nav>
+				</header>
+
+				<!-- Menu -->
+					<section id="menu">
+
+
+						<!-- Links -->
+						<section>
+							<ul class="links">
+								<li>
+									<a href="../../education/education.html">
+										<h3>Education</h3>
+									</a>
+								</li>
+								<li>
+									<a href="../projects.html">
+										<h3>Projects</h3>
+									</a>
+								</li>
+								<li>
+									<a href="../../cv/CV.html">
+										<h3>CV</h3>
+									</a>
+								</li>
+								<li>
+									<a href="../../personal/personal.html">
+										<h3>Personal</h3>
+
+									</a>
+								</li>
+							</ul>
+						</section>
+
+					<!-- Actions -->
+						<section>
+							<ul class="actions stacked">
+								<li><a href="../../email_contact/email.html" class="button large fit">Contact</a></li>
+							</ul>
+						</section>
+
+				</section>
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<article class="post">
+								<header>
+									<div class="title">
+										<h2><a href="./cs180proj1.html">Colorizing the Prokudin-Gorskii Photo Collection</a></h2>
+										<p><a href="https://inst.eecs.berkeley.edu/~cs180/fa24/hw/proj1/">CS 180 </a> project 1.</p>
+									</div>
+									<div class="meta">
+										<time class="published" datetime="2024-09-09">September 09, 2024</time>
+										<a href="../../index.html" class="author"><span class="name">Haoyue Xiao</span><img src="../../images/avatar1.png" alt="" /></a>
+									</div>
+								</header>
+								<div style="display: flex; align-items: center; justify-content: center;">
+									<span class="image featured"><img src="./images/emir_fft.jpg" alt="" /></span>
+								</div>
+
+								<div>
+
+									<hr>
+									<h2 id="introduction">Introduction</h2>
+										<p>The Prokudin-Gorskii collection, led by Russian photographer Sergei Mikhailovich Prokudin-Gorskii in the early 20th century, is a pioneering project documenting the Russian Empire in color. Using an innovative method commissioned by Tsar Nicholas II, Prokudin-Gorskii captured three black-and-white images of the same scene through red, green, and blue filters. When combined, these images produced vivid color photographs, offering a rare glimpse into life over a century ago. Now preserved by the Library of Congress, the collection includes 1,902 digitized triple-frame glass negatives.</p>
+										<p>Prokudin-Gorskii believed in the future of color photography, and his method involved creating triple-frame negatives for vibrant projections. The task today is to align these three color channels—red, green, and blue—accurately, recreating sharp and true-to-original color images. Proper alignment avoids blurring and ensures the photographs reflect Prokudin-Gorskii&#39;s vision.</p>
+										<p align="center">
+										<img src="./images/icon.jpg" alt="Pic A" height="300" style="vertical-align: middle;"/>
+										<span style="font-size: 60px; vertical-align: middle;">⟶</span>
+										<img src="./images/alignment.jpg" alt="Pic B" height="300" style="vertical-align: middle;"/>
+										<span style="font-size: 60px; vertical-align: middle;">⟶</span>
+										<img src="./images/icon_pyramid.jpg" alt="Pic B" height="300" style="vertical-align: middle;"/>
+										</p>
+
+										<hr>
+										<h2 id="methology">Methology</h2>
+										<p>The general approach to align the color channels will be firstly find a base channel (eg: the blue channel) and align the other two channels to it. Then, we stack all channels together in the order of <strong>r, g, b</strong> to create a colored image. Thus, the tricky part is how to align two images effectively and efficiently.</p>
+										<h3 id="alignment-metrics">Alignment Metrics</h3>
+										<p>To quantify how well two images align, we need a metric fucntion in the following form:
+										$$
+										\mathrm{metric}(\text{image A}, \text{image B}) = \text{score of alignment}
+										$$
+										<h4 id="SSD">The SSD Norm</h4>
+										One easy-to-think-of way is to use the \(l_2\) distance of the brightness pixel map between the two images:
+										$$
+										\mathrm{E_\text{SSD}}(A, B) = \sqrt{\sum_i \sum_j \left(A(i, j) - B(i,j)\right)^2}
+										$$
+										This method is convenient to implement and effectively gives a degree of similarity between two monochromatic images. However, it has some draw backs such as it treats every pixel equally, and the \(l_2\) norm is sensitive to outliers, which can be problematic when the two film images have random dark spots (due to technology at that time) or irregular borders. </p>
+										<p>We can adopt a more robost metric using formula \(\mathrm{E_\text{SRD}}(A, B) = \sum_i \sum_j \rho\left(A(i, j) - B(i,j)\right)\) where \(\rho(\cdot)\) is some robust norm function such as the \(l_1\) norm. </p>
+										<h4 id="NCC">The NCC Norm</h4>
+										<p>Another more interesting (and more effective in my implementation) method is to use the <strong>Normalized Cross-correlation (NCC)</strong> as the metric, with the formula:
+										$$
+										\mathrm{E_\text{NCC}}(A, B) = \frac{\sum_{i,j}(A(i,j) - \bar{A})\times(B(i,j) - \bar{B})}{||A - \bar{A}||_F\cdot||B - \bar{B}||_F} \quad\quad\quad \bar{A} = \frac{1}{N}\sum_{i,j}A(i,j)
+										$$
+										where \(||\cdot||_F\) is the Frobinus norm of matrices, and the subtraction between \(A\) and \(\bar{A}\) is element-wise.</p>
+										<p>The NCC metric effectively measures the correlation between the images (in pixel brightness) and gives a degree of how similar two images are. However, both the \(SSD\) and \(NCC\) are applied to pixel brightness, which is technically a risky choice for alignment. Due to the filming conditions and the filters, the optimal alignment probbaly do not have the same pixel brightness across each channel, and there may be a worse alignment that achieves better score than the &quot;human-judged&quot; optimal alignment when using the metric on brightness.</p>
+										<h4 id="edge">Sobel Edge Detector</h4>
+										<p>To solve this issue, we must analyze the invariant features accorss all color channels that can be used for pattern matching. In my solution,  I decide to use edge of objects in the image to match, because when filming the same object, the edges are less likely to change during the short interval of filming. </p>
+										<p>To apply edge detection on images, we convolve the original image with the sobel operator both horizontally and vertically. The sobel operator is define as
+											$$
+											\text{Sobel}_{X} = \begin{bmatrix}
+											-1 & 0 & 1 \\
+											-2 & 0 & 2 \\
+											-1 & 0 & 1
+											\end{bmatrix}
+											\quad
+											\text{Sobel}_{Y} = \begin{bmatrix}
+											-1 & -2 & -1 \\
+											0 & 0 & 0 \\
+											1 & 2 & 1
+											\end{bmatrix}
+											$$											
+										where convolving with \(\mathrm{Sobel_{X}}\) gives detection on vertical edges and \(\mathrm{Sobel_{Y}}\) derects horizontal edges. Example results are:</p>
+										<p align="center">
+										<img src="./images/sobel_x_y.png" alt="Pic A" height="300" style="vertical-align: middle;"/>
+										</p>
+										and when combined, it gives the full edge map of the original image:
+										<p align="center">
+										<img src="./images/sobel_xy.png" alt="Pic A" height="300" style="vertical-align: middle;"/>
+										</p>
+
+										<p>Using \(\mathrm{NCC}\) on the edge map, we are able to achieve much more accurate alignment than simple pixel brightness.</p>
+										<h3 id="naive-alignment">Naive Alignment</h3>
+										<p>The naive alignment is to search every possible shift between two images.<br>  This method will in theory give the best alignment according to the selected metric. Given that the images we are trying to align should be generally aligned with slight displacement, it&#39;s also desirable to search best shift between a selected range <code>[-displacement, displacement]</code>. In my naive implementation, I chose the <code>displacement</code> to be 15, and that means we search within the grid \([-15, 15]^2\). Here are some example aligned low-resolution images:</p>
+										<div class="grid-container">
+											<!-- First Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/monastery_pyramid.jpg" alt="Image 1" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(3, -2), R(6, 1)</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										
+											<!-- Second Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/tobolsk_pyramid.jpg" alt="Image 2" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-3, -3), R(4, 1)</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+											
+											<div class="grid-item">
+												<img src="./images/out_images/cathedral_pyramid.jpg" alt="Image 3" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-5, -2), R(7, 1)</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+										</div>
+										<h3 id="pyramid-search-hierarchical-motion-estimation-">Pyramid Search (Hierarchical Motion Estimation)</h3>
+										<p>However, for high resolution images, the pixel displacement can be much larger (pixels become &quot;smaller&quot;) and it&#39;s very expensive to search all possible shifts even within a selected range. Therefore, we need more clever ways such as constructing a gaussian pyramid. </p>
+										<p>In my approach, I first compute the pyramid layer to be \(\left\lceil\log_2\left(\frac{\min(\text{H}, \text{W})}{\text{min edge pixels}}\right)\right\rceil\), where <code>min edge pixels</code> is the threshold that the edge of the smallest image in the pyramid should be larger than, eg. 25 pixles. </p>
+										<p>Then, from the original image, we continuously downsample the image in the previous layer to half of its size, until we reach the final layer. </p>
+										<p>To search for the best alignment, we move from top to the bottom using this approach:</p>
+										<ol>
+										<li>Compute a full search on the lowest-resolution image to get an initial assumption of the position. This should be fast if the layer of the pyramid is high enough. In my implementation, by choosing <code>min edge pixels=25</code>, I get a pyramid of layer 7 and the final resolution can be as low as \(45\times 52\).</li>
+										<br>
+										<li><p>For the rest images in the pyramid, we start our search from the best alignment in the last layer. Because the resolition of the next image is doubled, if the best shift from last layer is <code>(x, y)</code>, then this layer will search starting from <code>(2x, 2y)</code>.</p>
+										</li>
+				
+										<li><p>For layers larger than 1, we only search within the range \([-1, 1]\) around the starting point. If the best displacement from the start point is <code>(a,b)</code>, then pass the location <code>(2x + a, 2y + b)</code> to the next layer.</p>
+										</li>
+										</ol>
+										<p>This pyramid approach is much faster than the naive search even for low resolution images. Here are some aligned example photos using this approach.</p>
+
+										<hr>
+										<p style="font-size: 24px; text-align: center; font-weight: bold;">With NCC Only (Not Perfectly Aligned)</p>
+										<div class="grid-container">
+											<!-- First Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/sculpture_pyramid_no_edge.jpg" alt="Image 1" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-33, 11), R(107, -16) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										
+											<!-- Second Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/onion_church_pyramid_no_edge.jpg" alt="Image 2" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-52, -25), R(57, 10) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+											
+											<div class="grid-item">
+												<img src="./images/out_images/melons_pyramid_no_edge.jpg" alt="Image 3" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-82, -10), R(95, 3) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/church_pyramid_no_edge.jpg" alt="Image 4" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-25, -3), R(0, -8) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										
+											<!-- Second Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/icon_pyramid_no_edge.jpg" alt="Image 5" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-40, -17), R(48, 5) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/emir_pyramid_no_edge.jpg" alt="Image 6" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-49, -23), R(0, 16) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										
+											<!-- Second Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/train_pyramid_no_edge.jpg" alt="Image 7" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-43, -1), R(0, 0) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+											
+											<div class="grid-item">
+												<img src="./images/out_images/lady_pyramid_no_edge.jpg" alt="Image 8" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-64, 0), R(31, 0) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/three_generations_pyramid_no_edge.jpg" alt="Image 9" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-54, -15), R(0, -2) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										
+											<!-- Second Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/self_portrait_pyramid_no_edge.jpg" alt="Image 10" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-80, -29), R(0, 31) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+											
+
+										</div>
+										
+										<br>
+										<p style="font-size: 24px; text-align: center; font-weight: bold;">With NCC + Sobel Edge Detector</p>
+										<div class="grid-container">
+											<!-- First Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/icon_pyramid.jpg" alt="Image 1" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-41, -17), R(48, 5) <br> Runtime: 17 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										
+											<!-- Second Image and Parameter Box -->
+											<div class="grid-item">
+												<img src="./images/out_images/emir_pyramid.jpg" alt="Image 2" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-49, -23), R(58, 17) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+											
+											<div class="grid-item">
+												<img src="./images/out_images/church_pyramid.jpg" alt="Image 3" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-25, -4), R(33, -8) <br> Runtime: 15 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/harvesters_pyramid.jpg" alt="Image 4" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-60, -17), R(64, -3) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/lady_pyramid.jpg" alt="Image 5" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-56, -9), R(63, 3) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/three_generations_pyramid.jpg" alt="Image 6" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-54, -12), R(58, 1) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/onion_church_pyramid.jpg" alt="Image 7" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-52, -24), R(57, 10) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/melons_pyramid.jpg" alt="Image 8" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-80, -10), R(96, 3) <br> Runtime: 17 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/self_portrait_pyramid.jpg" alt="Image 9" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-78, -29), R(98, 8) <br> Runtime: 17 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/sculpture_pyramid.jpg" alt="Image 10" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-33, 11), R(106, -16) <br> Runtime: 16 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+
+											<div class="grid-item">
+												<img src="./images/out_images/train_pyramid.jpg" alt="Image 11" class="image-box">
+												<div class="text-box">
+													<p>Best Shift:<br> B(-41, -2), R(44, 27) <br> Runtime: 17 sec</p>
+													<!-- Add more parameters as needed -->
+												</div>
+											</div>
+										</div>
+
+										<hr>
+										<h2 id="fancy-stuff">Fancy Stuff</h2>
+										<h3 id="fourier-based-fast-ncc-computation">Fourier-Based Fast NCC Computation</h3>
+										<p>The Fourier transform approach is based on the fact that convolution in the spatial domain corresponds to multiplication in the Fourier domain, namely:
+										$$
+										\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N) \overline{\mathcal{F}(B_N)} \implies E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \overline{\mathcal{F}(B_N)}\right|) \quad A_N = \frac{A - \overline{A}}{\|A - \overline{A}\|_F}
+										$$
+										<h4 id="runtime-analysis">Fourier Runtime Analysis</h4>
+										Suppose all images have the same dimension \(m \times n\), let's do a runtime analysis on the <code>naive approach</code>, the <code>pyramid approach</code>, and the <code>FFT approach</code>:</p>
+										<p><br></p>
+										<ol>
+											<li>To search for the optimal shift using the naive approach, we need to search every possible combination in the \(x\)-\(y\) directions, and that's \(\mathcal{O}(mn)\) combinations. Even if we only search a selected range, as the image size grows, this range should also scale proportionally. And at each possible shift, we evaluate the metric which involves all pixels, and that's at least \(\mathcal{O}(mn)\). Therefore, the runtime of the naive approach is \(\mathcal{O}(m^2n^2)\).</li>
+											<br>
+											<li>In the pyramid approach, we always downsample the original image to the lowest resolution above some threshold (layer 1). Therefore, the exhaustive search at this level is a constant. For the rest of the layers, we only search in a \(3 \times 3\) grid, and each evaluation takes \(\mathcal{O}\left(\frac{mn}{4^i}\right)\) time. Therefore, the total runtime is
+												$$
+												T(m, n) = \underbrace{\mathcal{O}(mn) + \mathcal{O}\left(\frac{mn}{4}\right) + \mathcal{O}\left(\frac{mn}{4^2}\right) + \cdots + \mathcal{O}(1)}_{\log_2{\min{(m,n)}} \text{ terms}} = \mathcal{O}(mn) + C
+												$$
+												where \(C\) is the exhaustive search constant.
+											</li>
+											<br>
+											<li>In the Fourier-based approach, using the fast Fourier transform, we can compute the Fourier transform of the images in \(\mathcal{O}(mn \log(mn))\). The conjugate multiplication takes \(\mathcal{O}(mn)\), and the inverse Fourier transform takes \(\mathcal{O}(mn \log(mn))\). Therefore, we can get the NCC map of every possible shift in \(\mathcal{O}(mn \log(mn))\), and finding the argmax is \(\mathcal{O}(mn)\). Finally, the \(\mathcal{O}(mn \log(mn))\) term dominates.
+											</li>
+											<br>
+										</ol>										
+										<p>Even though asymptotically, the pyramid approach is better than the Fourier approach, but in practice, the pyramid approach has a huge overhead and behaves worse than the FFT. Here's a graph showing the relationship between runtime and input size:</p>
+										<p align="center">
+										<img src="./images/runtime.png" alt="Pic A" height="300" style="vertical-align: middle;"/>
+										<img src="./images/runtime_log.png" alt="Pic B" height="300" style="vertical-align: middle;"/>
+										</p>
+
+										<div align="center">
+
+										<p>Fitted Runtime: \( \text{Pyramid: } \mathcal{O}(n^{2.11}) \quad \text{FFT: } \mathcal{O}(n^{2.24}) \)</p>
+										</div>
+										Here's also a table summarizing the runtime and best shift </p>
+										<div align="center">
+											<table align="center">
+												<tr>
+													<th>FFT Out Image</th>
+													<th>FFT Runtime</th>
+													<th>FFT Best Shift</th>
+													<th>Pyramid Runtime</th>
+													<th>Pyramid Best Shift</th>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/cathedral_fft.jpg" alt="Image of Cathedral FFT" width="100"></td>
+													<td>0.02s</td>
+													<td>B(-5, -2)<br>R(7, 1)</td>
+													<td>0.31s</td>
+													<td>B(-5, -2)<br>R(7, 1)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/church_fft.jpg" alt="Image of Church FFT" width="100"></td>
+													<td>2.9s</td>
+													<td>B(-25, -4)<br>R(33, -8)</td>
+													<td>16.39s</td>
+													<td>B(-25, -4)<br>R(33, -8)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/emir_fft.jpg" alt="Image of Emir FFT" width="100"></td>
+													<td>2.9s</td>
+													<td>B(-49, -23)<br>R(57, 17)</td>
+													<td>16.59s</td>
+													<td>B(-49, -23)<br>R(58, 17)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/harvesters_fft.jpg" alt="Image of Harvesters FFT" width="100"></td>
+													<td>3.89s</td>
+													<td>B(-60, -18)<br>R(65, -3)</td>
+													<td>16.2s</td>
+													<td>B(-60, -17)<br>R(64, -3)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/icon_fft.jpg" alt="Image of Icon FFT" width="100"></td>
+													<td>3.08s</td>
+													<td>B(-38, -16)<br>R(48, 5)</td>
+													<td>16.62s</td>
+													<td>B(-41, -17)<br>R(48, 5)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/lady_fft.jpg" alt="Image of Lady FFT" width="100"></td>
+													<td>2.6s</td>
+													<td>B(-56, -10)<br>R(63, 3)</td>
+													<td>16.63s</td>
+													<td>B(-56, -9)<br>R(63, 3)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/melons_fft.jpg" alt="Image of Melons FFT" width="100"></td>
+													<td>2.53s</td>
+													<td>B(-79, -9)<br>R(96, 4)</td>
+													<td>16.76s</td>
+													<td>B(-80, -10)<br>R(96, 3)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/monastery_fft.jpg" alt="Image of Monastery FFT" width="100"></td>
+													<td>0.023s</td>
+													<td>B(3, -2)<br>R(6, 1)</td>
+													<td>0.29s</td>
+													<td>B(3, -2)<br>R(6, 1)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/onion_church_fft.jpg" alt="Image of Onion Church FFT" width="100"></td>
+													<td>3.27s</td>
+													<td>B(-52, -24)<br>R(58, 9)</td>
+													<td>16.95s</td>
+													<td>B(-52, -24)<br>R(57, 10)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/sculpture_fft.jpg" alt="Image of Sculpture FFT" width="100"></td>
+													<td>3.2s</td>
+													<td>B(-33, 11)<br>R(107, -16)</td>
+													<td>16.8s</td>
+													<td>B(-33, 11)<br>R(106, -16)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/self_portrait_fft.jpg" alt="Image of Self Portrait FFT" width="100"></td>
+													<td>3s</td>
+													<td>B(-77, -29)<br>R(98, 8)</td>
+													<td>17.35s</td>
+													<td>B(-78, -29)<br>R(98, 8)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/three_generations_fft.jpg" alt="Image of Three Generations FFT" width="100"></td>
+													<td>2.9s</td>
+													<td>B(-56, -12)<br>R(59, -6)</td>
+													<td>16.4s</td>
+													<td>B(-54, -12)<br>R(58, 1)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/tobolsk_fft.jpg" alt="Image of Tobolsk FFT" width="100"></td>
+													<td>0.025s</td>
+													<td>B(-3, -3)<br>R(4, 0)</td>
+													<td>0.29s</td>
+													<td>B(-3, -3)<br>R(4, 1)</td>
+												</tr>
+												<tr>
+													<td><img src="./images/out_images/train_fft.jpg" alt="Image of Train FFT" width="100"></td>
+													<td>2.8s</td>
+													<td>B(-40, -8)<br>R(41, 27)</td>
+													<td>16.8s</td>
+													<td>B(-41, -2)<br>R(44, 27)</td>
+												</tr>
+											</table>
+										</div>
+										
+
+								  
+								  </div>
+								<!-- <footer>
+									<ul class="stats">
+										<li><a href="#">General</a></li>
+										<li><a href="#" class="icon solid fa-heart">28</a></li>
+										<li><a href="#" class="icon solid fa-comment">128</a></li>
+									</ul>
+								</footer> -->
+							</article>
+
+					</div>
+
+				<!-- Footer -->
+					<section id="footer">
+						<ul class="icons">
+							<li><a href="https://www.instagram.com/billxiao1121/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="../../email_contact/email.html" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+							<li><a href="https://github.com/HaoyueXiao" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="https://www.linkedin.com/in/haoyuexiao-b6810124b/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="#" class="icon brands fa-weixin"><span class="label">WeChat</span></a></li>
+						</ul>
+						<p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>

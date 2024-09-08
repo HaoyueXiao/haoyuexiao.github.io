@@ -1,3 +1,5 @@
+
+----
 # Introduction
 
 The Prokudin-Gorskii collection, led by Russian photographer Sergei Mikhailovich Prokudin-Gorskii in the early 20th century, is a pioneering project documenting the Russian Empire in color. Using an innovative method commissioned by Tsar Nicholas II, Prokudin-Gorskii captured three black-and-white images of the same scene through red, green, and blue filters. When combined, these images produced vivid color photographs, offering a rare glimpse into life over a century ago. Now preserved by the Library of Congress, the collection includes 1,902 digitized triple-frame glass negatives.
@@ -12,6 +14,7 @@ Prokudin-Gorskii believed in the future of color photography, and his method inv
   <img src="./images/icon_pyramid.jpg" alt="Pic B" height="300" style="vertical-align: middle;"/>
 </p>
 
+-----
 # Methology
 
 The general approach to align the color channels will be firstly find a base channel (eg: the blue channel) and align the other two channels to it. Then, we stack all channels together in the order of **r, g, b** to create a colored image. Thus, the tricky part is how to align two images effectively and efficiently.
@@ -80,11 +83,69 @@ To search for the best alignment, we move from top to the bottom using this appr
 
 2. For the rest images in the pyramid, we start our search from the best alignment in the last layer. Because the resolition of the next image is doubled, if the best shift from last layer is `(x, y)`, then this layer will search starting from `(2x, 2y)`.
 
-3. For layers larger than 1, we only search within the range $[-1, 1]$ around the starting point. If the best displacement from the start point is `(a,b)`, then pass the location `(2x + a, 2y + b)` to the next layer.
+3. For layers larger than 1, we only search within the range $[-1, 1]$ a<br> round the starting point. If the best displacement from the start point is `(a,b)`, then pass the location `(2x + a, 2y + b)` to the next layer.
 
 This pyramid approach is much faster than the naive search even for low resolution images. Here are some aligned example photos using this approach.
 
-
+----
 # Fancy Stuff
 
-## Fourier-Based Alignment
+## Fourier-Based Fast NCC Computation
+
+The fourier transform approach is based on the fact that convolution in the spatial domain corresponds to multiplication in the Fourier domain, namely:
+$$
+\mathcal{F}(E_\text{NCC}) = \mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N) \implies E_\text{NCC} = \mathcal{F}^{-1}(\big|\mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N)\big|) \quad A_N = \frac{A - \bar{A}}{||A - \bar{A}||_F}
+$$
+Suppose all images have the same dimension $m\times n$, let's do a runtime analysis on the `naive approach`, the `pyramid approach`, and the `FFT approach`:
+
+<br>
+
+1. To search for the optimal shift using the naive approach, we need to search every possible combination in the $x$-$y$ directions, and that's $\mathcal{O}(mn)$ combinations. Even if we only search a selected range, as the image size grows, this range should also scale proportionally. And at each possible shift, we evaluate the metric which involves all pixels, and that's at least $\mathcal{O}(mn)$. Therefore, the runtime of the naive approach is $\mathcal{O}(m^2n^2)$. 
+
+<br>
+
+2. In the pyramid approach, we always downsample the original image to the lowest resolution above some threshold (layer 1). Therefore, the exhaust search at this level is a constant. For the rest layers, we only search in a $3\times 3$ grid, and each evaluation takes $\mathcal{O}(\frac{mn}{4^i})$ time. Therefore, the total runtime is
+$$
+T(m, n) = \underbrace{\mathcal{O}(mn) + \mathcal{O}\left(\frac{mn}{4}\right) + \mathcal{O}\left(\frac{mn}{4^2}\right) + \cdots + \mathcal{O}(1)}_{\log_2{\min{(m,n)}} \text{ terms}} = \mathcal{O}(mn) + C
+$$
+where $C$ is the exhaustive search constant. 
+
+<br>
+
+3. In the fourier-based approach, using the fast fourier transform, we can compute the fourier transform of the images in $\mathcal{O}(mn\log(mn))$. The conjugate multiplication takes $\mathcal{O}(mn)$, and the inverse fourier transform takes $\mathcal{O}(mn\log(mn))$. Therefore, we can get the NCC map of every possible shift in $\mathcal{O}(mn\log(mn))$, and finding the argmax is $\mathcal{O}(mn)$. Finally, the $\mathcal{O}(mn\log(mn))$ term dominates. 
+
+Even though asymptotically, the pyramid approach is better than the fourier approach, but in practice, the pyramid approach has a huge overhead and behaves worse than the FFT. Here's a graph showing the relationship between runtime and input size:
+
+<p align="center">
+  <img src="./images/runtime.png" alt="Pic A" height="300" style="vertical-align: middle;"/>
+  <img src="./images/runtime_log.png" alt="Pic B" height="300" style="vertical-align: middle;"/>
+</p>
+
+<div align="center">
+
+Fitted Runtime: \( \text{Pyramid: } \mathcal{O}(n^{2.11}) \quad \text{FFT: } \mathcal{O}(n^{2.24})\)
+(48, 5)
+</div>
+Here's also a table summarizing the runtime and best shift:
+
+
+<div align="center">
+
+| FFT Out Image | FFT Runtime | FFT Best Shift | Pyramid Runtime | Pyramid Best Shift |
+|---------------|-------------|----------------|-----------------|--------------------|
+| <img src="./images/out_images/cathedral_fft.jpg" width="100" alt="Image of Cathedral FFT"> | 0.02s | B(-5, -2)<br>R(7, 1) | 0.31s | B(-5, -2)<br>R(7, 1) |
+| <img src="./images/out_images/church_fft.jpg" width="100" alt="Image of Church FFT"> | 2.9s | B(-25, -4)<br>R(33, -8) | 16.39s | B(-25, -4)<br>R(33, -8) |
+| <img src="./images/out_images/emir_fft.jpg" width="100" alt="Image of Emir FFT"> | 2.9s | B(-49, -23)<br>R(57, 17) | 16.59s | B(-49, -23)<br>R(58, 17) |
+| <img src="./images/out_images/harvesters_fft.jpg" width="100" alt="Image of Harvesters FFT"> | 3.89s | B(-60, -18)<br>R(65, -3) | 16.2s | B(-60, -17)<br>R(64, -3) |
+| <img src="./images/out_images/icon_fft.jpg" width="100" alt="Image of Icon FFT"> | 3.08s | B(-38, -16)<br>R(48, 5) | 16.62s | B(-41, -17)<br>R(48, 5) |
+| <img src="./images/out_images/lady_fft.jpg" width="100" alt="Image of Lady FFT"> | 2.6s | B(-56, -10)<br>R(63, 3) | 16.63s | B(-56, -9)<br>R(63, 3) |
+| <img src="./images/out_images/melons_fft.jpg" width="100" alt="Image of Melons FFT"> | 2.53s | B(-79, -9)<br>R(96, 4) | 16.76s | B(-80, -10)<br>R(96, 3) |
+| <img src="./images/out_images/monastery_fft.jpg" width="100" alt="Image of Monastery FFT"> | 0.023s | B(3, -2)<br>R(6, 1) | 0.29s | B(3, -2)<br>R(6, 1) |
+| <img src="./images/out_images/onion_church_fft.jpg" width="100" alt="Image of Onion Church FFT"> | 3.27s | B(-52, -24)<br>R(58, 9) | 16.95s | B(-52, -24)<br>R(57, 10) |
+| <img src="./images/out_images/sculpture_fft.jpg" width="100" alt="Image of Sculpture FFT"> | 3.2s | B(-33, 11)<br>R(107, -16) | 16.8s | B(-33, 11)<br>R(106, -16) |
+| <img src="./images/out_images/self_portrait_fft.jpg" width="100" alt="Image of Self Portrait FFT"> | 3s | B(-77, -29)<br>R(98, 8) | 17.35s | B(-78, -29)<br>R(98, 8) |
+| <img src="./images/out_images/three_generations_fft.jpg" width="100" alt="Image of Three Generations FFT"> | 2.9s | B(-56, -12)<br>R(59, -6) | 16.4s | B(-54, -12)<br>R(58, 1) |
+| <img src="./images/out_images/tobolsk_fft.jpg" width="100" alt="Image of Tobolsk FFT"> | 0.025s | B(-3, -3)<br>R(4, 0) | 0.29s | B(-3, -3)<br>R(4, 1) |
+| <img src="./images/out_images/train_fft.jpg" width="100" alt="Image of Train FFT"> | 2.8s | B(-40, -8)<br>R(41, 27) | 16.8s | B(-41, -2)<br>R(44, 27) |
+
+</div>

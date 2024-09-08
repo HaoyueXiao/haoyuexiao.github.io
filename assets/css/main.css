@@ -3731,5 +3731,54 @@ input, select, textarea {
 .icons_large a:hover {
 	color: #0073e6;  /* Change color on hover */
 }
+
+
+.grid-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 20px;
+	padding: 20px;
+	background-color: #fffdfd;
+}
+.grid-item {
+	background: #fff;
+	padding: 10px;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.image-box {
+	width: 100%;
+	height: auto;
+}
+.text-box {
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+     /* Center vertically */
+    margin-top: 2px; /* Reduced margin-top for less space between image and text */
+    padding: 2px 5px; /* Reduced padding for a more compact look */
+    background-color: #ffffff; /* White background */
+    color: #7f7f7f; /* Light grey text color */
+    text-align: center;
+    font-size: 15px; /* Smaller font size */
+    line-height: 1.2; /* Tighter line spacing */
+    height: 60px; /* Fixed height to ensure enough vertical space for centering */
+}
+
+table {
+	width: 50%; /* Reduced width for better layout control */
+	border-collapse: collapse;
+	margin: 20px 0; /* Adds some space around the table */
+}
+th, td {
+	border: 1px solid #dddddd;
+	text-align: center;
+	padding: 1px; /* Reduced padding for a more compact look */
+	vertical-align: middle;
+}
+th {
+	background-color: #b7b7b7;
+}
+
+
+
 		
 
