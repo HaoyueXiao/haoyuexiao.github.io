@@ -120,11 +120,11 @@
 										<p>The Prokudin-Gorskii collection, led by Russian photographer Sergei Mikhailovich Prokudin-Gorskii in the early 20th century, is a pioneering project documenting the Russian Empire in color. Using an innovative method commissioned by Tsar Nicholas II, Prokudin-Gorskii captured three black-and-white images of the same scene through red, green, and blue filters. When combined, these images produced vivid color photographs, offering a rare glimpse into life over a century ago. Now preserved by the Library of Congress, the collection includes 1,902 digitized triple-frame glass negatives.</p>
 										<p>Prokudin-Gorskii believed in the future of color photography, and his method involved creating triple-frame negatives for vibrant projections. The task today is to align these three color channels—red, green, and blue—accurately, recreating sharp and true-to-original color images. Proper alignment avoids blurring and ensures the photographs reflect Prokudin-Gorskii&#39;s vision.</p>
 										<div class="flex-container">
-											<img src="./images/icon.jpg" alt="Pic A">
+											<img src="./images/icon.jpg" alt="Pic A" height="100px">
 											<span>⟶</span>
-											<img src="./images/alignment.jpg" alt="Pic B">
+											<img src="./images/alignment.jpg" alt="Pic B" height="100px">
 											<span>⟶</span>
-											<img src="./images/icon_pyramid.jpg" alt="Pic C">
+											<img src="./images/icon_pyramid.jpg" alt="Pic C" height="100px">
 										</div>
 										
 
@@ -156,11 +156,11 @@
 											<div class="flex-container">
 												<div class="math-block">
 											$$
-										\mathrm{E_\text{NCC}}(A, B) = \frac{\sum_{i,j}(A(i,j) - \bar{A})\times(B(i,j) - \bar{B})}{||A - \bar{A}||_F\cdot||B - \bar{B}||_F} \quad\quad\quad \bar{A} = \frac{1}{N}\sum_{i,j}A(i,j)
+										\mathrm{E_\text{NCC}}(A, B) = \frac{\sum_{i,j}(A(i,j) - \bar{A})\times(B(i,j) - \bar{B})}{||A - \bar{A}||_F\cdot||B - \bar{B}||_F}
 										$$
 										</div>
 										</div>
-										where \(||\cdot||_F\) is the Frobinus norm of matrices, and the subtraction between \(A\) and \(\bar{A}\) is element-wise.</p>
+										where \(\bar{A} = \frac{1}{N}\sum_{i,j}A(i,j)\) is the mean of all pixel brightness in \(A\) and  \(||\cdot||_F\) is the Frobinus norm of matrices, and the subtraction between \(A\) and \(\bar{A}\) is element-wise.</p>
 										<p>The NCC metric effectively measures the correlation between the images (in pixel brightness) and gives a degree of how similar two images are. However, both the \(SSD\) and \(NCC\) are applied to pixel brightness, which is technically a risky choice for alignment. Due to the filming conditions and the filters, the optimal alignment probbaly do not have the same pixel brightness across each channel, and there may be a worse alignment that achieves better score than the &quot;human-judged&quot; optimal alignment when using the metric on brightness.</p>
 										<h4 id="edge">Sobel Edge Detector</h4>
 										<p>To solve this issue, we must analyze the invariant features accorss all color channels that can be used for pattern matching. In my solution,  I decide to use edge of objects in the image to match, because when filming the same object, the edges are less likely to change during the short interval of filming. </p>
@@ -430,10 +430,11 @@
 											<div class="flex-container">
 												<div class="math-block">
 											$$
-										\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N) \implies E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \bar{*}\mathcal{F}(B_N)\right|) \quad A_N = \frac{A - \overline{A}}{\|A - \overline{A}\|_F}
+										\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N) \implies E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \bar{*}\mathcal{F}(B_N)\right|)
 										$$
 												</div>
 											</div>
+											<p>where \(A_N = \frac{A - \overline{A}}{\|A - \overline{A}\|_F}\) is the normalized image.</p>
 										<h4 id="runtime-analysis">Fourier Runtime Analysis</h4>
 										Suppose all images have the same dimension \(m \times n\), let's do a runtime analysis on the <code>naive approach</code>, the <code>pyramid approach</code>, and the <code>FFT approach</code>:</p>
 										<p><br></p>
@@ -443,9 +444,15 @@
 											<li>In the pyramid approach, we always downsample the original image to the lowest resolution above some threshold (layer 1). Therefore, the exhaustive search at this level is a constant. For the rest of the layers, we only search in a \(3 \times 3\) grid, and each evaluation takes \(\mathcal{O}\left(\frac{mn}{4^i}\right)\) time. Therefore, the total runtime is
 												<div class="flex-container">
 													<div class="math-block">
-												$$
-												T(m, n) = \underbrace{\mathcal{O}(mn) + \mathcal{O}\left(\frac{mn}{4}\right) + \mathcal{O}\left(\frac{mn}{4^2}\right) + \cdots + \mathcal{O}(1)}_{\log_2{\min{(m,n)}} \text{ terms}} = \mathcal{O}(mn) + C
-												$$
+														$$
+														\begin{equation*}
+															\begin{aligned}
+															T(m, n) &= \underbrace{\mathcal{O}(mn) + \mathcal{O}\left(\frac{mn}{4}\right) + \mathcal{O}\left(\frac{mn}{4^2}\right) + \cdots + \mathcal{O}(1)}_{\log_2{\min{(m,n)}} \text{ terms}} \\
+																	&= \mathcal{O}(mn) + C
+															\end{aligned}
+														\end{equation*}
+														$$
+														
 													</div>
 												</div>
 												where \(C\) is the exhaustive search constant.

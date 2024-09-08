@@ -3764,7 +3764,7 @@ input, select, textarea {
 }
 
 table {
-	width: 50%; /* Reduced width for better layout control */
+	width: 45%; /* Reduced width for better layout control */
 	border-collapse: collapse;
 	margin: 20px 0; /* Adds some space around the table */
 }
@@ -3773,9 +3773,10 @@ th, td {
 	text-align: center;
 	padding: 1px; /* Reduced padding for a more compact look */
 	vertical-align: middle;
+	font-size: 14px;
 }
 th {
-	background-color: #b7b7b7;
+	background-color: #f4e9e9;
 }
 
 
@@ -3798,7 +3799,7 @@ th {
 	align-items: center; /* Centers the content vertically */
 }
 .flex-container img {
-	height: 300px; /* Sets a fixed height for all images */
+	height: 200px; /* Sets a fixed height for all images */
 	vertical-align: middle; /* Ensures images are aligned to the middle */
 }
 .flex-container span {
