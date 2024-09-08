@@ -3794,34 +3794,17 @@ th {
 }
 
 .flex-container {
-    display: flex; /* Enables flexbox */
-    justify-content: center; /* Centers the content horizontally */
-    align-items: center; /* Centers the content vertically */
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-    gap: 10px; /* Adds space between items */
-    text-align: center; /* Centers the text in the container */
+	display: flex; /* Enables flexbox */
+	justify-content: center; /* Centers the content horizontally */
+	align-items: center; /* Centers the content vertically */
 }
-
-.responsive-image {
-    width: 100%; /* Ensures images take up the full width of the container */
-    max-width: 300px; /* Limits the maximum width of the images */
-    height: auto; /* Maintains aspect ratio */
-    vertical-align: middle; /* Vertically aligns the images */
+.flex-container img {
+	height: 200px; /* Sets a fixed height for all images */
+	vertical-align: middle; /* Ensures images are aligned to the middle */
 }
-
-.flex-container p {
-    font-size: 18px; /* Sets font size for the text */
-    margin: 10px 0; /* Adds margin around the paragraph */
-}
-
-@media (max-width: 600px) {
-    .responsive-image {
-        max-width: 100%; /* Makes sure images don't overflow on smaller screens */
-    }
-
-    .flex-container p {
-        font-size: 16px; /* Adjusts font size for smaller screens */
-    }
+.flex-container span {
+	font-size: 60px; /* Large size for the arrows */
+	margin: 0 20px; /* Adds horizontal spacing around the arrows */
 }
 
 .math-block {
