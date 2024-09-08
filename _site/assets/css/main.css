@@ -3779,6 +3779,42 @@ th {
 }
 
 
+.tocsidebar {
+	width: 200px;
+	position: fixed; /* Fixed position to stay in view while scrolling */
+	height: 100vh; /* Full viewport height */
+	overflow-y: auto; /* Enable scrolling */
+	background-color: #f4f4f4; /* Light grey background */
+	padding: 20px;
+}
+.toccontent {
+	padding: 20px;
+	flex-grow: 1;
+}
+
+.flex-container {
+	display: flex; /* Enables flexbox */
+	justify-content: center; /* Centers the content horizontally */
+	align-items: center; /* Centers the content vertically */
+}
+.flex-container img {
+	height: 300px; /* Sets a fixed height for all images */
+	vertical-align: middle; /* Ensures images are aligned to the middle */
+}
+.flex-container span {
+	font-size: 60px; /* Large size for the arrows */
+	margin: 0 20px; /* Adds horizontal spacing around the arrows */
+}
+
+.math-block {
+	flex: 1; /* Each block takes equal space */
+	text-align: center; /* Centers the text inside the block */
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid #ffffff; /* Optional: adds a border */
+}
+
+
 
 		
 
