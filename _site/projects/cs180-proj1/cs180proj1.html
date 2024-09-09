@@ -141,12 +141,12 @@
 										<div class="flex-container">
 											<div class="math-block">
 										$$
-										\mathrm{E_\text{SSD}}(A, B) = \sqrt{\sum_i \sum_j \left(A(i, j) - B(i,j)\right)^2}
+										\mathrm{E_\text{SSD}}(A, B) = -\sqrt{\sum_i \sum_j \left(A(i, j) - B(i,j)\right)^2}
 										$$
 										</div>
 										</div>
-										This method is convenient to implement and effectively gives a degree of similarity between two monochromatic images. However, it has some draw backs such as it treats every pixel equally, and the \(l_2\) norm is sensitive to outliers, which can be problematic when the two film images have random dark spots (due to technology at that time) or irregular borders. </p>
-										<p>We can adopt a more robost metric using formula \(\mathrm{E_\text{SRD}}(A, B) = \sum_i \sum_j \rho\left(A(i, j) - B(i,j)\right)\) where \(\rho(\cdot)\) is some robust norm function such as the \(l_1\) norm. </p>
+										Here, we add a negative sign to the sum of squares so that we can maximize it instead of minimizing.<br> This method is convenient to implement and effectively gives a degree of similarity between two monochromatic images. However, it has some draw backs such as it treats every pixel equally, and the \(l_2\) norm is sensitive to outliers, which can be problematic when the two film images have random dark spots (due to technology at that time) or irregular borders. </p>
+										<p>We can adopt a more robost metric using formula \(\mathrm{E_\text{SRD}}(A, B) = -\sum_i \sum_j \rho\left(A(i, j) - B(i,j)\right)\) where \(\rho(\cdot)\) is some robust norm function such as the \(l_1\) norm. </p>
 										<h4 id="NCC">The NCC Norm</h4>
 										<p>Another more interesting (and more effective in my implementation) method is to use the <strong>Normalized Cross-correlation (NCC)</strong> as the metric, with the formula:
 											<div class="flex-container">
@@ -179,8 +179,8 @@
 										</div>
 										</div>										
 										where convolving with \(\mathrm{Sobel_{X}}\) gives detection on vertical edges and \(\mathrm{Sobel_{Y}}\) derects horizontal edges. Example results are:</p>
-										<div class="flex-container">
-										<img src="./images/sobel_x_y.png" alt="Pic A" height="300" style="vertical-align: middle;"/>
+										<div style="display: flex; align-items: center; justify-content: center;">
+											<span class="image featured"><img src="./images/sobel_x_y.png" alt="" /></span>
 										</div>
 										and when combined, it gives the full edge map of the original image:
 										<div class="flex-container">
@@ -232,8 +232,14 @@
 										<li><p>For layers larger than 1, we only search within the range \([-1, 1]\) around the starting point. If the best displacement from the start point is <code>(a,b)</code>, then pass the location <code>(2x + a, 2y + b)</code> to the next layer.</p>
 										</li>
 										</ol>
-										<p>This pyramid approach is much faster than the naive search even for low resolution images. Here are some aligned example photos using this approach(both with and without edge detection).</p>
+										<p style="font-weight: bold;">This pyramid approach is much faster than the naive search even for low resolution images.</p>
+										<p>Before aligning two images, I apply some preprocessing as the following:</p>
+										<ul>
+											<li>Crop the image to the 90% center to avoid aligning irregular image borders.</li>
+											<li>Optionally, we can apply Sobel operator to the images and align the edge of the image, which in practice, achieves <strong>much better</strong> performance than aligning pixel brightness directly.</li>
+										</ul>
 
+										<p style="font-size: 20px;">Here are some aligned example photos using this approach(both with and without edge detection):</p>
 										<hr>
 										<p style="font-size: 24px; text-align: center; font-weight: bold;">With NCC Only (Not Perfectly Aligned)</p>
 										<div class="grid-container">
@@ -426,7 +432,12 @@
 											<div class="flex-container">
 												<div class="math-block">
 											$$
-										\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N) \implies E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \bar{*}\mathcal{F}(B_N)\right|)
+											\begin{equation*}
+													\begin{aligned}
+													&\mathcal{F}(E_{\text{NCC}}) = \mathcal{F}(A_N)\bar{*}\mathcal{F}(B_N)\\
+													\implies & E_{\text{NCC}} = \mathcal{F}^{-1}(\left|\mathcal{F}(A_N) \bar{*}\mathcal{F}(B_N)\right|)
+													\end{aligned}
+											\end{equation*}
 										$$
 												</div>
 											</div>
@@ -443,7 +454,8 @@
 														$$
 														\begin{equation*}
 															\begin{aligned}
-															T(m, n) &= \underbrace{\mathcal{O}(mn) + \mathcal{O}\left(\frac{mn}{4}\right) + \mathcal{O}\left(\frac{mn}{4^2}\right) + \cdots + \mathcal{O}(1)}_{\log_2{\min{(m,n)}} \text{ terms}} \\
+															T&(m, n)\\
+															 &= \underbrace{\mathcal{O}(mn) + \mathcal{O}\left(\frac{mn}{4}\right) + \mathcal{O}\left(\frac{mn}{4^2}\right) + \cdots + \mathcal{O}(1)}_{\log_2{\min{(m,n)}} \text{ terms}} \\
 																	&= \mathcal{O}(mn) + C
 															\end{aligned}
 														\end{equation*}
