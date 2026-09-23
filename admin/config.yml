@@ -5,9 +5,9 @@ backend:
   name: github
   repo: HaoyueXiao/haoyuexiao.github.io
   branch: main
-  # For the "Sign In with GitHub" button, deploy sveltia-cms-auth to Cloudflare Workers
-  # and put its URL here. Without it, use "Sign In with Token" (a GitHub personal access token).
-  # base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev
+  # OAuth for "Sign In with GitHub" (sveltia-cms-auth on Cloudflare Workers).
+  # "Sign In with Token" still works as a fallback.
+  base_url: https://sveltia-cms-auth.hyxiao5154-c0d.workers.dev
 
 site_url: https://haoyuexiao.github.io
 display_url: https://haoyuexiao.github.io
