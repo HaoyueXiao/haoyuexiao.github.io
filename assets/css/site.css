@@ -360,7 +360,8 @@ p { margin: 0 0 1em; }
 	padding: 20px 22px;
 }
 
-.edu > img { width: 56px; height: 56px; object-fit: contain; flex-shrink: 0; border-radius: 8px; background: #fff; padding: 4px; }
+.edu + .edu { margin-top: 12px; }
+.edu > img { width: 96px; height: 56px; object-fit: contain; flex-shrink: 0; border-radius: 8px; background: #fff; padding: 4px; }
 .edu h3 { font-size: 1.15rem; margin-bottom: 2px; }
 .edu h4 { font-size: 1rem; margin: 1.25em 0 0.5em; }
 .edu .muted { margin-bottom: 0.5em; }

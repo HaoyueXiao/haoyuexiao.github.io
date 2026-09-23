@@ -1,5 +1,5 @@
 ---
-title: Face Morphing (CS180 Project 3)
+title: Face Morphing and Facial Keypoint Detection (CS180 Project 3)
 description: Correspondence-based morph sequences, the mean face of a population,
   and caricatures by extrapolation.
 tags:

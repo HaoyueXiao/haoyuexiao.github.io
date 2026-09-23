@@ -17,7 +17,7 @@
   url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/Project4/
   description: Homography-based image warping and mosaicing, with automatic feature detection, description, and matching.
   featured: true
-- title: Face Morphing
+- title: Face Morphing and Facial Keypoint Detection
   course: CS180 Project 3
   image: /assets/img/projects/proj3.jpg
   url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/Project3/
