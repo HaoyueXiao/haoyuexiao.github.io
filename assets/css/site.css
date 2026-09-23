@@ -579,8 +579,8 @@ details[open] summary { margin-bottom: 10px; }
 .gallery::after { content: ''; flex-grow: 999; }
 
 .gallery-item {
-	flex-grow: var(--ar);
-	flex-basis: calc(var(--ar) * 220px);
+	flex-grow: var(--ar, 1.5);
+	flex-basis: calc(var(--ar, 1.5) * 220px);
 	overflow: hidden;
 	border-radius: 8px;
 	background: var(--surface-2);
@@ -591,7 +591,7 @@ details[open] summary { margin-bottom: 10px; }
 	display: block;
 	width: 100%;
 	height: auto;
-	aspect-ratio: var(--ar);
+	aspect-ratio: var(--ar, 1.5);
 	object-fit: cover;
 	transition: transform 0.5s ease, filter 0.3s ease;
 }
@@ -601,7 +601,7 @@ details[open] summary { margin-bottom: 10px; }
 
 @media (max-width: 600px) {
 	.gallery { gap: 4px; }
-	.gallery-item { flex-basis: calc(var(--ar) * 140px); border-radius: 4px; }
+	.gallery-item { flex-basis: calc(var(--ar, 1.5) * 140px); border-radius: 4px; }
 }
 
 /* Lightbox */

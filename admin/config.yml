@@ -14,6 +14,17 @@ display_url: https://haoyuexiao.github.io
 media_folder: assets/img/blog
 public_folder: /assets/img/blog
 
+# Uploaded images are resized in the browser (longest side <= 2400px) and saved as WebP.
+media_libraries:
+  default:
+    config:
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2400
+          height: 2400
+
 collections:
   - name: posts
     label: Blog Posts
@@ -32,6 +43,38 @@ collections:
       - { name: external_url, label: External page, widget: string, required: false, hint: "Leave empty for normal posts. If set, the post links to this page instead (used for course project write-ups)." }
       - { name: math, label: Render math, widget: boolean, default: true, required: false, hint: "Inline math: $x^2$ or $$x^2$$ inside a sentence. Display math: $$...$$ on its own line." }
       - { name: body, label: Body, widget: markdown, required: false }
+
+  - name: photos
+    label: Photography
+    editor:
+      preview: false
+    files:
+      - name: albums
+        label: Photo Albums
+        file: _data/albums.yml
+        fields:
+          - name: albums
+            label: Albums
+            label_singular: Album
+            widget: list
+            root: true
+            add_to_top: true
+            summary: "{{title}} ({{when}})"
+            fields:
+              - { name: title, label: Album title, widget: string, hint: "e.g. Yosemite" }
+              - { name: when, label: When, widget: string, hint: "e.g. Fall 2025" }
+              - name: photos
+                label: Photos
+                label_singular: Photo
+                widget: list
+                summary: "{{caption}}"
+                fields:
+                  - { name: image, label: Photo, widget: image, media_folder: /personal/images/uploads, public_folder: /personal/images/uploads, hint: "Upload the photo; it is converted to WebP, max 2400px." }
+                  - { name: caption, label: Caption, widget: string, required: false, hint: "Optional. Defaults to the album title." }
+                  - { name: thumb, label: Thumbnail path, widget: string, required: false, hint: "Only used by photos added before the web editor. Leave empty." }
+                  - { name: original, label: Original path, widget: string, required: false, hint: "Only used by photos added before the web editor. Leave empty." }
+                  - { name: w, label: Width, widget: number, required: false, hint: "Leave empty; detected automatically." }
+                  - { name: h, label: Height, widget: number, required: false, hint: "Leave empty; detected automatically." }
 
   - name: site
     label: Site Data

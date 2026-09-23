@@ -7,6 +7,17 @@
 	var items = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
 	if (!items.length) return;
 
+	// Photos uploaded from /admin have no stored size; take the aspect ratio from the loaded image.
+	items.forEach(function(it) {
+		if (it.style.getPropertyValue('--ar')) return;
+		var thumb = it.querySelector('img');
+		function setRatio() {
+			if (thumb.naturalWidth) it.style.setProperty('--ar', (thumb.naturalWidth / thumb.naturalHeight).toFixed(3));
+		}
+		thumb.addEventListener('load', setRatio);
+		setRatio();
+	});
+
 	var box = document.createElement('div');
 	box.className = 'lb';
 	box.setAttribute('role', 'dialog');
@@ -43,6 +54,7 @@
 		img.alt = it.querySelector('img').alt;
 		caption.textContent = it.getAttribute('data-caption') || '';
 		count.textContent = (index + 1) + ' / ' + items.length;
+		original.hidden = !it.hasAttribute('data-original');
 		original.href = it.getAttribute('data-original') || it.getAttribute('href');
 		preload(index + 1);
 		preload(index - 1);

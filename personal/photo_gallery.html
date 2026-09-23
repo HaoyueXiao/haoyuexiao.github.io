@@ -13,8 +13,8 @@ scripts: [/assets/js/gallery.js]
 	</header>
 	<div class="gallery">
 		{% for ph in album.photos %}
-		{% assign ar = ph.w | times: 1.0 | divided_by: ph.h | round: 3 %}
-		<a class="gallery-item" style="--ar:{{ ar }}" href="images/large/{{ ph.id }}.jpg" data-original="images/full_size/{{ ph.original }}" data-caption="{{ album.title }}, {{ album.when }}"><img src="images/thumb/{{ ph.id }}.jpg" width="{{ ph.w }}" height="{{ ph.h }}" alt="{{ album.title }} photo {{ forloop.index }}" loading="lazy" decoding="async" /></a>
+		{% if ph.w and ph.h %}{% assign ar = ph.w | times: 1.0 | divided_by: ph.h | round: 3 %}{% else %}{% assign ar = nil %}{% endif %}
+		<a class="gallery-item" {% if ar %}style="--ar:{{ ar }}"{% endif %} href="{{ ph.image }}"{% if ph.original %} data-original="{{ ph.original }}"{% endif %} data-caption="{{ ph.caption | default: album.title | escape }}, {{ album.when }}"><img src="{{ ph.thumb | default: ph.image }}"{% if ar %} width="{{ ph.w }}" height="{{ ph.h }}"{% endif %} alt="{{ ph.caption | default: album.title | escape }} photo {{ forloop.index }}" loading="lazy" decoding="async" /></a>
 		{% endfor %}
 	</div>
 </section>
