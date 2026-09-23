@@ -8,6 +8,8 @@ backend:
   # OAuth for "Sign In with GitHub" (sveltia-cms-auth on Cloudflare Workers).
   # "Sign In with Token" still works as a fallback.
   base_url: https://sveltia-cms-auth.hyxiao5154-c0d.workers.dev
+  # The site repo is public, so request access to public repos only (not private ones).
+  auth_scope: public_repo
 
 site_url: https://haoyuexiao.github.io
 display_url: https://haoyuexiao.github.io
