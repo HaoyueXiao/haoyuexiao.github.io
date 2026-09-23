@@ -1,151 +1,242 @@
-- title: "Boston & New York"
+- title: Japan
+  when: Winter 2024
+  photos:
+    - image: /personal/images/uploads/tokyo-1.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/tokyo-2.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/hokadate-1.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/kyoto-2.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/kyoto-6.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/fuji-4.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/fuji-5.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/fuji-3.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/hokadate_5.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+    - image: /personal/images/uploads/kyoto-4.webp
+      caption: ''
+      thumb: ''
+      original: ''
+      w: null
+      h: null
+- title: Boston & New York
   when: Summer 2024
   photos:
     - image: /personal/images/large/bo1.jpg
+      caption: ''
       thumb: /personal/images/thumb/bo1.jpg
       original: /personal/images/full_size/bo1.jpg
       w: 900
       h: 557
     - image: /personal/images/large/bo2.jpg
+      caption: ''
       thumb: /personal/images/thumb/bo2.jpg
       original: /personal/images/full_size/bo2.jpg
       w: 900
       h: 579
     - image: /personal/images/large/bo3.jpg
+      caption: ''
       thumb: /personal/images/thumb/bo3.jpg
       original: /personal/images/full_size/bo3.jpg
       w: 900
       h: 823
     - image: /personal/images/large/bo4.jpg
+      caption: ''
       thumb: /personal/images/thumb/bo4.jpg
       original: /personal/images/full_size/bo4.jpg
       w: 600
       h: 900
     - image: /personal/images/large/bo5.jpg
+      caption: ''
       thumb: /personal/images/thumb/bo5.jpg
       original: /personal/images/full_size/bo5.jpg
       w: 638
       h: 900
-- title: "Lake Tahoe"
+- title: Lake Tahoe
   when: Spring 2024
   photos:
     - image: /personal/images/large/th1.jpg
+      caption: ''
       thumb: /personal/images/thumb/th1.jpg
       original: /personal/images/full_size/th1.jpg
       w: 900
       h: 572
     - image: /personal/images/large/th2.jpg
+      caption: ''
       thumb: /personal/images/thumb/th2.jpg
       original: /personal/images/full_size/th2.jpg
       w: 900
       h: 575
     - image: /personal/images/large/th3.jpg
+      caption: ''
       thumb: /personal/images/thumb/th3.jpg
       original: /personal/images/full_size/th3.jpg
       w: 900
       h: 463
-- title: "Utah"
+- title: Utah
   when: Winter 2023
   photos:
     - image: /personal/images/large/ut1.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut1.jpg
       original: /personal/images/full_size/ut1.jpg
       w: 900
       h: 600
     - image: /personal/images/large/ut2.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut2.jpg
       original: /personal/images/full_size/ut2.jpg
       w: 900
       h: 487
     - image: /personal/images/large/ut3.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut3.jpg
       original: /personal/images/full_size/ut3.jpg
       w: 900
       h: 600
     - image: /personal/images/large/ut4.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut4.jpg
       original: /personal/images/full_size/ut4.jpg
       w: 900
       h: 543
     - image: /personal/images/large/ut5.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut5.jpg
       original: /personal/images/full_size/ut5.jpg
       w: 900
       h: 600
     - image: /personal/images/large/ut6.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut6.jpg
       original: /personal/images/full_size/ut6.jpg
       w: 900
       h: 525
     - image: /personal/images/large/ut7.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut7.jpg
       original: /personal/images/full_size/ut7.jpg
       w: 900
       h: 584
     - image: /personal/images/large/ut8.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut8.jpg
       original: /personal/images/full_size/ut8.jpg
       w: 900
       h: 591
     - image: /personal/images/large/ut9.jpg
+      caption: ''
       thumb: /personal/images/thumb/ut9.jpg
       original: /personal/images/full_size/ut9.JPG
       w: 900
       h: 600
-- title: "Washington"
+- title: Washington
   when: Spring 2023
   photos:
     - image: /personal/images/large/wa1.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa1.jpg
       original: /personal/images/full_size/wa1.JPG
       w: 600
       h: 900
     - image: /personal/images/large/wa2.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa2.jpg
       original: /personal/images/full_size/wa2.JPG
       w: 900
       h: 610
     - image: /personal/images/large/wa3.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa3.jpg
       original: /personal/images/full_size/wa3.JPG
       w: 616
       h: 900
     - image: /personal/images/large/wa4.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa4.jpg
       original: /personal/images/full_size/wa4.JPG
       w: 641
       h: 900
     - image: /personal/images/large/wa5.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa5.jpg
       original: /personal/images/full_size/wa5.JPG
       w: 900
       h: 860
     - image: /personal/images/large/wa6.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa6.jpg
       original: /personal/images/full_size/wa6.JPG
       w: 900
       h: 591
     - image: /personal/images/large/wa7.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa7.jpg
       original: /personal/images/full_size/wa7.JPG
       w: 600
       h: 900
     - image: /personal/images/large/wa8.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa8.jpg
       original: /personal/images/full_size/wa8.JPG
       w: 900
       h: 393
     - image: /personal/images/large/wa9.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa9.jpg
       original: /personal/images/full_size/wa9.JPG
       w: 631
       h: 900
     - image: /personal/images/large/wa10.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa10.jpg
       original: /personal/images/full_size/wa10.JPG
       w: 900
       h: 600
     - image: /personal/images/large/wa11.jpg
+      caption: ''
       thumb: /personal/images/thumb/wa11.jpg
       original: /personal/images/full_size/wa11.JPG
       w: 624
