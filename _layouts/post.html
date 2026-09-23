@@ -1,0 +1,42 @@
+---
+layout: default
+---
+<article class="post">
+	<header class="post-header">
+		<a class="back" href="/blog/">&larr; All posts</a>
+		<h1>{{ page.title }}</h1>
+		<p class="post-meta">
+			<time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+			{% assign words = content | number_of_words %}
+			&middot; {{ words | divided_by: 220 | plus: 1 }} min read
+			{% for tag in page.tags %}<a class="tag" href="/blog/#{{ tag | slugify }}">{{ tag }}</a>{% endfor %}
+		</p>
+	</header>
+	{% if page.cover %}<img class="post-cover" src="{{ page.cover }}" alt="" />{% endif %}
+	<div class="prose">
+		{% if page.external_url %}
+		<p>{{ page.description }}</p>
+		<p><a class="btn" href="{{ page.external_url }}">Read the full write-up &rarr;</a></p>
+		{% else %}
+		{{ content }}
+		{% endif %}
+	</div>
+	<nav class="post-nav">
+		{% if page.previous %}<a href="{{ page.previous.external_url | default: page.previous.url }}"><small>Previous</small>{{ page.previous.title }}</a>{% else %}<span></span>{% endif %}
+		{% if page.next %}<a class="next" href="{{ page.next.external_url | default: page.next.url }}"><small>Next</small>{{ page.next.title }}</a>{% endif %}
+	</nav>
+</article>
+{% unless page.math == false %}
+<script>
+	window.MathJax = {
+		tex: {
+			inlineMath: [['$', '$'], ['\\(', '\\)']],
+			displayMath: [['$$', '$$'], ['\\[', '\\]']],
+			processEscapes: true,
+			tags: 'ams'
+		},
+		options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+	};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+{% endunless %}

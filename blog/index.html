@@ -1,0 +1,59 @@
+---
+layout: page
+title: Blog
+subtitle: Notes on research, courses, and things I'm learning.
+nav: blog
+---
+{% assign tags = site.tags | sort %}
+{% if tags.size > 0 %}
+<div class="tag-filter" role="group" aria-label="Filter by tag">
+	<button type="button" class="tag is-active" data-tag="">All</button>
+	{% for t in tags %}<button type="button" class="tag" data-tag="{{ t[0] | slugify }}">{{ t[0] }}</button>{% endfor %}
+</div>
+{% endif %}
+
+{% if site.posts.size == 0 %}
+<p class="muted">No posts yet.</p>
+{% endif %}
+
+{% assign by_year = site.posts | group_by_exp: "p", "p.date | date: '%Y'" %}
+{% for year in by_year %}
+<section class="year-group">
+	<h2 class="year">{{ year.name }}</h2>
+	<ul class="blog-list">
+		{% for post in year.items %}
+		<li data-tags="{% for t in post.tags %}{{ t | slugify }} {% endfor %}">
+			<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d" }}</time>
+			<div>
+				<a class="blog-title" href="{{ post.external_url | default: post.url }}">{{ post.title }}{% if post.external_url %} <i class="fas fa-external-link-alt ext" aria-label="external page"></i>{% endif %}</a>
+				<p>{{ post.description | default: post.excerpt | strip_html | truncate: 180 }}</p>
+			</div>
+			{% if post.cover %}<a class="blog-cover" href="{{ post.external_url | default: post.url }}" tabindex="-1" aria-hidden="true"><img src="{{ post.cover }}" alt="" loading="lazy" /></a>{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+</section>
+{% endfor %}
+
+<script>
+(function() {
+	var buttons = document.querySelectorAll('.tag-filter .tag');
+	function apply(tag) {
+		buttons.forEach(function(b) { b.classList.toggle('is-active', b.getAttribute('data-tag') === tag); });
+		document.querySelectorAll('.blog-list li').forEach(function(li) {
+			li.hidden = tag && (' ' + li.getAttribute('data-tags')).indexOf(' ' + tag + ' ') < 0;
+		});
+		document.querySelectorAll('.year-group').forEach(function(g) {
+			g.hidden = !g.querySelector('li:not([hidden])');
+		});
+	}
+	buttons.forEach(function(b) {
+		b.addEventListener('click', function() {
+			var tag = b.getAttribute('data-tag');
+			history.replaceState(null, '', tag ? '#' + tag : location.pathname);
+			apply(tag);
+		});
+	});
+	apply(decodeURIComponent(location.hash.slice(1)));
+})();
+</script>

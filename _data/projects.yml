@@ -1,0 +1,34 @@
+# Shown on the home page and /projects/. Edit here or in the web editor at /admin.
+- title: Neural Radiance Fields
+  course: CS180 Final Project
+  image: /assets/img/projects/nerf.jpg
+  url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/final_proj/
+  description: Fit a neural field to a 2D image, then trained a NeRF from multi-view images to render novel views of a 3D scene.
+  featured: true
+- title: Diffusion Models
+  course: CS180 Project 5
+  image: /assets/img/projects/proj5.jpg
+  url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/Project5/
+  description: Sampling and editing with a pretrained DDPM, then building and training a class-conditioned diffusion UNet from scratch.
+  featured: true
+- title: Panorama Stitching
+  course: CS180 Project 4
+  image: /assets/img/projects/proj4.jpg
+  url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/Project4/
+  description: Homography-based image warping and mosaicing, with automatic feature detection, description, and matching.
+  featured: true
+- title: Face Morphing
+  course: CS180 Project 3
+  image: /assets/img/projects/proj3.jpg
+  url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/Project3/
+  description: Correspondence-based morph sequences, the mean face of a population, and caricatures by extrapolation.
+- title: Hybrid Images & Multiresolution Blending
+  course: CS180 Project 2
+  image: /assets/img/projects/proj2.jpg
+  url: https://haoyuexiao.github.io/ProjectsWebsite/CS180/Project2/
+  description: Filters and frequencies — edge detection, image sharpening, hybrid images, and Laplacian stack blending.
+- title: Colorizing the Prokudin-Gorskii Collection
+  course: CS180 Project 1
+  image: /assets/img/projects/proj1.jpg
+  url: /projects/cs180-proj1/cs180proj1.html
+  description: Aligning the three glass-plate color channels with an image pyramid to reconstruct color photographs from the 1900s.

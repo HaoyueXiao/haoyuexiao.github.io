@@ -1,147 +1,87 @@
-<!DOCTYPE HTML>
-<!--
-	Future Imperfect by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Haoyue Xiao</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link href="assets/" rel="stylesheet">
-	</head>
-	<body class="is-preload">
+---
+layout: default
+nav: /
+---
+<section class="hero">
+	<div class="hero-text">
+		<h1>Haoyue Xiao</h1>
+		<p class="hero-role">Computer Science &amp; Mathematics &middot; UC Berkeley</p>
+		<p>Hello! I'm a senior undergraduate at <a href="https://www.berkeley.edu/">UC Berkeley</a> studying computer science and applied mathematics.</p>
+		<p>My research interests lie in <strong>machine learning</strong>, <strong>robotics</strong>, and <strong>large language models</strong>. I've worked as a research assistant at the <a href="https://www.ri.cmu.edu/">CMU Robotics Institute</a> and with <a href="https://ai4good.org/">AI for Good</a>.</p>
+		<p>Outside of research, I take photos, play video games, and always have music on.</p>
+		{% include social.html %}
+	</div>
+	<div class="hero-photo">
+		<img src="/images/profile.jpg" alt="Haoyue Xiao" width="600" height="600" />
+	</div>
+</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<section class="section">
+	<h2 class="section-title">News</h2>
+	<ul class="news">
+		{% assign news = site.data.news | sort: "date" | reverse %}
+		{% for n in news %}
+		<li>
+			<time datetime="{{ n.date | date_to_xmlschema }}">{{ n.date | date: "%b %Y" }}</time>
+			<span>{{ n.text | markdownify | remove: '<p>' | remove: '</p>' }}</span>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
 
-				<!-- Header -->
-					<header id="header">
-						<h1><a href="./index.html">Haoyue Xiao</a></h1>
-						<nav class="links">
-							<ul>
-								<li><a href="./education/education.html">Education</a></li>
-								<li><a href="./projects/projects.html">Projects</a></li>
-								<li><a href="./cv/CV.html">CV</a></li>
-								<li><a href="./personal/personal.html">Personal</a></li>
-							</ul>
-						</nav>
-						<nav class="main">
-							<ul>
-								<li class="menu">
-									<a class="fa-bars" href="#menu">Menu</a>
-								</li>
-							</ul>
-						</nav>
-					</header>
+<section class="section">
+	<div class="section-head">
+		<h2 class="section-title">Selected Projects</h2>
+		<a class="more" href="/projects/">All projects &rarr;</a>
+	</div>
+	<div class="cards">
+		{% assign featured = site.data.projects | where: "featured", true %}
+		{% for p in featured %}{% include project-card.html p=p %}{% endfor %}
+	</div>
+</section>
 
-				<!-- Menu -->
-					<section id="menu">
+{% if site.posts.size > 0 %}
+<section class="section">
+	<div class="section-head">
+		<h2 class="section-title">Recent Posts</h2>
+		<a class="more" href="/blog/">All posts &rarr;</a>
+	</div>
+	<ul class="post-list">
+		{% for post in site.posts limit: 3 %}
+		<li>
+			<a href="{{ post.external_url | default: post.url }}">{{ post.title }}</a>
+			<time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+		</li>
+		{% endfor %}
+	</ul>
+</section>
+{% endif %}
 
-						<!-- Links -->
-						<section>
-							<ul class="links">
-								<li>
-									<a href="../education/education.html">
-										<h3>Education</h3>
-									</a>
-								</li>
-								<li>
-									<a href="../projects/projects.html">
-										<h3>Projects</h3>
-									</a>
-								</li>
-								<li>
-									<a href="../cv/CV.html">
-										<h3>CV</h3>
-									</a>
-								</li>
-								<li>
-									<a href="../personal/personal.html">
-										<h3>Personal</h3>
+<section class="section">
+	<h2 class="section-title">Education</h2>
+	<div class="edu">
+		<img src="/images/ucberkeley.png" alt="UC Berkeley" width="64" height="64" />
+		<div>
+			<h3>University of California, Berkeley</h3>
+			<p class="muted">B.A. Computer Science &middot; B.A. Applied Mathematics</p>
+			<details>
+				<summary>Relevant coursework</summary>
+				<ul class="chips">
+					{% for c in site.data.courses %}<li>{{ c }}</li>{% endfor %}
+				</ul>
+			</details>
+		</div>
+	</div>
+</section>
 
-									</a>
-								</li>
-							</ul>
-						</section>
-						<!-- Actions -->
-							<section>
-								<ul class="actions stacked">
-									<li><a href="email_contact/email.html" class="button large fit">Contact</a></li>
-								</ul>
-							</section>
-
-					</section>
-
-				<!-- Main -->
-					<div id="main">
-
-						<!-- Post -->
-							<article class="post">
-								<header>
-									<div class="title">
-										<h2><a href="">About</a></h2>
-									</div>
-								</header>
-								<p>Hello, my name is Haoyue Xiao. I'm currently a senior undergraduate at UC Berkeley studying computer science and mathematics. </p>
-								<p>My research interests lie in machine learning, robotics, and LLMs.</p>
-							</article>
-
-					</div>
-
-				<!-- Sidebar -->
-					<section id="sidebar">
-
-						<!-- Intro -->
-							<section id="intro">
-								<div style="text-align: center;">
-									<a href="#" class="logo"><img src="images/avatar3.JPG" alt="" /></a>
-								</div>
-								<header>
-									<h2 style="text-align: center;">Haoyue Xiao</h2>
-								</header>
-								<div style="text-align: center;">
-									<ul class="icons">
-										<li><a href="https://www.instagram.com/billxiao1121/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="../email_contact/email.html" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-										<li><a href="https://github.com/HaoyueXiao" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-										<li><a href="https://www.linkedin.com/in/haoyuexiao-b6810124b/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
-										<li><a href="#" class="icon brands fa-weixin"><span class="label">WeChat</span></a></li>
-									</ul>
-								</div>
-							</section>
-
-						<!-- About -->
-							<section class="blurb">
-							    <h2>Activities</h2>
-							    <ul>
-							        <li>
-							            <div class="meta">
-							                <time class="published" datetime="2024-05-20">May 20, 2024</time>
-							                <p>Working in <a href="https://www.ri.cmu.edu/">CMU Robotics Institute</a> as a research assistant, guided by <a href="https://www.jianrenw.com/">Dr. Jianren Wang</a>, Summer 2024. </p>
-							            </div>
-							        </li>
-								<li>
-								    <div class="meta">
-									<time class="published" datetime="2024-02-25">Feb 25, 2024</time>
-									<p>Working as an undergraduate research assistant with <a href="https://haas.berkeley.edu/faculty/anastassia-fedyk/">Prof. Anastassia Fedyk </a> and <a href="https://ai4good.org/">AI for Good</a>.</p>
-								    </div>
-								</li>
-							    </ul>
-							</section>
-
-					</section>
-
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
-</html>
+<section class="section">
+	<div class="section-head">
+		<h2 class="section-title">Photography</h2>
+		<a class="more" href="/personal/photo_gallery.html">Gallery &rarr;</a>
+	</div>
+	<div class="photo-strip">
+		{% assign strip = "bo2,th3,ut3,wa2,bo4,ut1" | split: "," %}{% for f in strip %}
+		<a href="/personal/photo_gallery.html"><img src="/personal/images/thumb/{{ f }}.jpg" alt="" loading="lazy" /></a>
+		{% endfor %}
+	</div>
+</section>

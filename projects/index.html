@@ -1,0 +1,9 @@
+---
+layout: page
+title: Projects
+subtitle: Course and personal projects in computer vision, generative models, and machine learning.
+nav: projects
+---
+<div class="cards">
+	{% for p in site.data.projects %}{% include project-card.html p=p %}{% endfor %}
+</div>

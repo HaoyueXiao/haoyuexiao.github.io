@@ -1,0 +1,18 @@
+{% assign here = page.nav | default: page.url %}
+<header class="site-header">
+	<div class="container nav">
+		<a class="brand" href="/">{{ site.author.name }}</a>
+		<input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" />
+		<label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span></label>
+		<nav class="nav-links">
+			<a href="/" {% if here == "/" %}aria-current="page"{% endif %}>About</a>
+			<a href="/projects/" {% if here == "projects" %}aria-current="page"{% endif %}>Projects</a>
+			<a href="/blog/" {% if here == "blog" or page.layout == "post" %}aria-current="page"{% endif %}>Blog</a>
+			<a href="/personal/photo_gallery.html" {% if here == "photos" %}aria-current="page"{% endif %}>Photos</a>
+			<a href="/cv/asset/Resume_Haoyue_Xiao.pdf">CV</a>
+			<button class="theme-toggle" type="button" aria-label="Toggle dark mode">
+				<i class="fas fa-moon"></i><i class="fas fa-sun"></i>
+			</button>
+		</nav>
+	</div>
+</header>

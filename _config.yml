@@ -1,13 +1,43 @@
+# Site settings
+title: Haoyue Xiao
+description: Haoyue Xiao — CS & Math at UC Berkeley. Machine learning, robotics, and LLMs.
+url: https://haoyuexiao.github.io
+baseurl: ""
+
+author:
+  name: Haoyue Xiao
+  github: HaoyueXiao
+  linkedin: haoyuexiao-b6810124b
+  instagram: billxiao1121
+
+# Blog (permalink is set only for posts so existing .html page URLs stay unchanged)
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      permalink: /blog/:year/:month/:title/
+
 # Build settings
 markdown: kramdown
-theme: minima
 plugins:
   - jekyll-feed
+
+feed:
+  path: blog/feed.xml
 
 # Markdown settings
 kramdown:
   input: GFM
   auto_ids: true
   hard_wrap: false
-  math_engine: mathjax   # Add this line to enable MathJax for math equations
+  math_engine: mathjax
 
+exclude:
+  - _site
+  - Gemfile
+  - Gemfile.lock
+  - README.txt
+  - LICENSE.txt
+  - assets/sass

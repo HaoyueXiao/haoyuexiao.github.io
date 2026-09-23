@@ -1,0 +1,41 @@
+# Photo albums. Each photo needs thumb/<id>.jpg, large/<id>.jpg and the original in full_size/.
+- title: "Boston & New York"
+  when: Summer 2024
+  photos:
+    - { id: bo1, original: bo1.jpg, w: 900, h: 557 }
+    - { id: bo2, original: bo2.jpg, w: 900, h: 579 }
+    - { id: bo3, original: bo3.jpg, w: 900, h: 823 }
+    - { id: bo4, original: bo4.jpg, w: 600, h: 900 }
+    - { id: bo5, original: bo5.jpg, w: 638, h: 900 }
+- title: "Lake Tahoe"
+  when: Spring 2024
+  photos:
+    - { id: th1, original: th1.jpg, w: 900, h: 572 }
+    - { id: th2, original: th2.jpg, w: 900, h: 575 }
+    - { id: th3, original: th3.jpg, w: 900, h: 463 }
+- title: "Utah"
+  when: Winter 2023
+  photos:
+    - { id: ut1, original: ut1.jpg, w: 900, h: 600 }
+    - { id: ut2, original: ut2.jpg, w: 900, h: 487 }
+    - { id: ut3, original: ut3.jpg, w: 900, h: 600 }
+    - { id: ut4, original: ut4.jpg, w: 900, h: 543 }
+    - { id: ut5, original: ut5.jpg, w: 900, h: 600 }
+    - { id: ut6, original: ut6.jpg, w: 900, h: 525 }
+    - { id: ut7, original: ut7.jpg, w: 900, h: 584 }
+    - { id: ut8, original: ut8.jpg, w: 900, h: 591 }
+    - { id: ut9, original: ut9.JPG, w: 900, h: 600 }
+- title: "Washington"
+  when: Spring 2023
+  photos:
+    - { id: wa1, original: wa1.JPG, w: 600, h: 900 }
+    - { id: wa2, original: wa2.JPG, w: 900, h: 610 }
+    - { id: wa3, original: wa3.JPG, w: 616, h: 900 }
+    - { id: wa4, original: wa4.JPG, w: 641, h: 900 }
+    - { id: wa5, original: wa5.JPG, w: 900, h: 860 }
+    - { id: wa6, original: wa6.JPG, w: 900, h: 591 }
+    - { id: wa7, original: wa7.JPG, w: 600, h: 900 }
+    - { id: wa8, original: wa8.JPG, w: 900, h: 393 }
+    - { id: wa9, original: wa9.JPG, w: 631, h: 900 }
+    - { id: wa10, original: wa10.JPG, w: 900, h: 600 }
+    - { id: wa11, original: wa11.JPG, w: 624, h: 900 }

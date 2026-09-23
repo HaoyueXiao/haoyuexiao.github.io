@@ -1,0 +1,71 @@
+# Web editor for the site, served at /admin/.
+# Sign in with GitHub. Every save becomes a commit on the main branch,
+# and GitHub Pages republishes the site about a minute later.
+backend:
+  name: github
+  repo: HaoyueXiao/haoyuexiao.github.io
+  branch: main
+  # For the "Sign In with GitHub" button, deploy sveltia-cms-auth to Cloudflare Workers
+  # and put its URL here. Without it, use "Sign In with Token" (a GitHub personal access token).
+  # base_url: https://sveltia-cms-auth.YOUR-SUBDOMAIN.workers.dev
+
+site_url: https://haoyuexiao.github.io
+display_url: https://haoyuexiao.github.io
+media_folder: assets/img/blog
+public_folder: /assets/img/blog
+
+collections:
+  - name: posts
+    label: Blog Posts
+    label_singular: Post
+    folder: _posts
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD HH:mm:ss ZZ" }
+      - { name: description, label: Summary, widget: text, required: false, hint: "One or two sentences shown in the post list." }
+      - { name: tags, label: Tags, widget: list, required: false }
+      - { name: cover, label: Cover image, widget: image, required: false }
+      - { name: external_url, label: External page, widget: string, required: false, hint: "Leave empty for normal posts. If set, the post links to this page instead (used for course project write-ups)." }
+      - { name: math, label: Render math, widget: boolean, default: true, required: false, hint: "Inline math: $x^2$ or $$x^2$$ inside a sentence. Display math: $$...$$ on its own line." }
+      - { name: body, label: Body, widget: markdown, required: false }
+
+  - name: site
+    label: Site Data
+    editor:
+      preview: false
+    files:
+      - name: news
+        label: News
+        file: _data/news.yml
+        fields:
+          - name: items
+            label: News
+            label_singular: News item
+            widget: list
+            root: true
+            add_to_top: true
+            summary: "{{date}} — {{text}}"
+            fields:
+              - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+              - { name: text, label: Text, widget: text, hint: "Markdown links work: [CMU RI](https://www.ri.cmu.edu/)" }
+      - name: projects
+        label: Projects
+        file: _data/projects.yml
+        fields:
+          - name: items
+            label: Projects
+            label_singular: Project
+            widget: list
+            root: true
+            summary: "{{title}} ({{course}})"
+            fields:
+              - { name: title, label: Title, widget: string }
+              - { name: course, label: Course / label, widget: string }
+              - { name: image, label: Image, widget: image, media_folder: /assets/img/projects, public_folder: /assets/img/projects }
+              - { name: url, label: Link, widget: string }
+              - { name: description, label: Description, widget: text }
+              - { name: featured, label: Show on home page, widget: boolean, default: false, required: false }
